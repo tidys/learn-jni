@@ -14,7 +14,7 @@ android {
         versionName "1.0"
         ndk {
             moduleName "native-lib"
-            abiFilters "x86"
+            abiFilters "arm64-v8a"
         }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -33,15 +33,15 @@ android {
     }
     ndkVersion "22.1.7171670"
     externalNativeBuild {
-//        // 使用cmake编译c++
-//        cmake {
-//            version '3.22.1'
-//            path file('CMakeLists.txt')
-//        }
-//      //  使用ndkBuild编译c++
-        ndkBuild {
-            path "jni/Android.mk"
+        // 使用cmake编译c++
+        cmake {
+            version '3.22.1'
+            path file('CMakeLists.txt')
         }
+//      //  使用ndkBuild编译c++
+//        ndkBuild {
+//            path "jni/Android.mk"
+//        }
     }
 
     compileOptions {
