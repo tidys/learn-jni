@@ -27,4 +27,5 @@ LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_libswscale
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-add-path,$(LOCAL_PATH))
-$(call import-module,ffmpeg/prebuilt/android)
+$(call import-module,ffmpeg3-2/prebuilt/android)
+#$(call import-module,ffmpeg4-2/prebuilt/android)
