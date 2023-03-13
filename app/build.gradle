@@ -3,6 +3,10 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+        }
+    }
     namespace 'com.example.learnndk'
     compileSdk 33
 
@@ -26,11 +30,10 @@ android {
             }
         }
     }
-
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        customDebugType {
+            debuggable true
+            jniDebuggable true
         }
     }
     ndkVersion "22.1.7171670"
@@ -40,7 +43,7 @@ android {
 //            version '3.22.1'
 //            path file('CMakeLists.txt')
 //        }
-      //  使用ndkBuild编译c++
+        //  使用ndkBuild编译c++
         ndkBuild {
             path "jni/Android.mk"
         }
