@@ -22,10 +22,11 @@ LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_libavformat
 LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_libavutil
 LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_libswresample
 LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_libswscale
-
+LOCAL_SHARED_LIBRARIES += cocos_openal
 # include $(BUILD_STATIC_LIBRARY)
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-add-path,$(LOCAL_PATH))
+$(call import-module,openal1-19/prebuilt/android)
 $(call import-module,ffmpeg3-2/prebuilt/android)
 #$(call import-module,ffmpeg4-2/prebuilt/android)
