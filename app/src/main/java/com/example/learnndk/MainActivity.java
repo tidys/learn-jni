@@ -10,7 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,17 +23,38 @@ public class MainActivity extends AppCompatActivity {
         System.loadLibrary("native-lib");
     }
 
+    public String getAssetsFilePath(String file) {
+        AssetManager assetManager = this.getAssets();
+        try {
+            BufferedInputStream inputStream = new BufferedInputStream(assetManager.open(file));
+            byte[] data = new byte[inputStream.available()];
+            inputStream.read(data);
+            inputStream.close();
+
+            File outFile = new File(this.getFilesDir(), file);
+            FileOutputStream outputStream = new FileOutputStream(outFile);
+            outputStream.write(data);
+            outputStream.close();
+
+            Log.d("filepath", outFile.getAbsolutePath());
+            return outFile.getAbsolutePath();
+        } catch (IOException e) {
+
+        }
+        return "";
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView tv = (TextView) findViewById(R.id.text);
         tv.setText(stringFromJNI());
-
+        String mp4File = this.getAssetsFilePath("gaga.mp4");
         findViewById(R.id.testFFMpeg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv.setText(testFFMpeg());
+                tv.setText(testFFMpeg(mp4File));
             }
         });
         Button btn = (Button) findViewById(R.id.test);
@@ -60,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     public native String stringFromJNI();
 
-    public native String testFFMpeg();
+    public native String testFFMpeg(String mp4File);
 
     public native String testOpenAL();
 }

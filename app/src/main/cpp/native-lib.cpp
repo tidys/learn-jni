@@ -24,7 +24,7 @@ string checkError(char *file, int line) {
 #define CHECHERROR() checkError(__FILE__, __LINE__);
 
 extern "C" JNIEXPORT jstring
-JNICALL Java_com_example_learnndk_MainActivity_testFFMpeg(JNIEnv *env, jobject) {
+JNICALL Java_com_example_learnndk_MainActivity_testFFMpeg(JNIEnv *env, jobject, jstring mp4File) {
     std::string tips = "";
     av_register_all();
     avcodec_register_all();
@@ -32,15 +32,18 @@ JNICALL Java_com_example_learnndk_MainActivity_testFFMpeg(JNIEnv *env, jobject) 
     if (avFormatContext) {
         tips += "call ffmpeg avformat_alloc_context\n";
     }
-    char *file = "gaga.mp4";
+//    char *file = "gaga.mp4";
+    const char *file = env->GetStringUTFChars(mp4File, 0);
+    tips += string(file) + "\n";
     int ret = avformat_open_input(&avFormatContext, file, nullptr, nullptr);
     if (ret != 0) {
         char buf[255];
         av_strerror(ret, buf, 255);
         char tmp[255];
         sprintf(tmp, "avformat_open_input failed %d: %s\n", ret, buf);
-        tips += string(file) + "\n";
         tips += string(tmp);
+    } else {
+        tips += "avformat_open_input success!\n";
     }
     return env->NewStringUTF(tips.c_str());
 }
