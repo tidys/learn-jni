@@ -1,6 +1,9 @@
 #include <jni.h>
 #include <string>
 #include <math.h>
+#include "assert.h"
+#include "android/asset_manager.h"
+#include "android/asset_manager_jni.h"
 
 extern "C" {
 #include <libavutil/version.h>
@@ -11,7 +14,7 @@ extern "C" {
 }
 using namespace std;
 
-string checkError(char *file, int line) {
+string checkError(const char *file, int line) {
     ALenum err = alGetError();
     if (err != AL_NO_ERROR) {
         char tmp[255];
@@ -22,7 +25,20 @@ string checkError(char *file, int line) {
 }
 
 #define CHECHERROR() checkError(__FILE__, __LINE__);
-
+extern "C" JNIEXPORT jstring
+JNICALL Java_com_example_learnndk_MainActivity_testFFMpegJNI(JNIEnv *env,jobject , jobject obj) {
+    string tips = "";
+    AAssetManager *mgr = AAssetManager_fromJava(env, obj);
+    if (mgr != nullptr) {
+        AAsset *asset = AAssetManager_open(mgr, "gaga.mp4", AASSET_MODE_UNKNOWN);
+        if (asset) {
+            tips = "open gaga.mp4 asset";
+        } else {
+            tips = "no gaga.mp4 asset";
+        }
+    }
+    return env->NewStringUTF(tips.c_str());
+}
 extern "C" JNIEXPORT jstring
 JNICALL Java_com_example_learnndk_MainActivity_testFFMpeg(JNIEnv *env, jobject, jstring mp4File) {
     std::string tips = "";
@@ -80,6 +96,7 @@ JNICALL Java_com_example_learnndk_MainActivity_testOpenAL(JNIEnv *env, jobject) 
     tips += CHECHERROR();
 
     alSourcePlay(_source);
+    return  env->NewStringUTF("");
 }
 
 extern "C" JNIEXPORT jstring

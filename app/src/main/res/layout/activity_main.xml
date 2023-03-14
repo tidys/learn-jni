@@ -19,8 +19,8 @@
 
     <Button
         android:id="@+id/test"
-        android:layout_width="480dp"
-        android:layout_height="91dp"
+        android:layout_width="374dp"
+        android:layout_height="97dp"
         android:layout_marginBottom="44dp"
         android:layout_marginStart="56dp"
         android:text="assets/1.txt"
@@ -32,9 +32,20 @@
         android:id="@+id/testFFMpeg"
         android:layout_width="280dp"
         android:layout_height="103dp"
-        android:layout_marginBottom="44dp"
-        android:layout_marginStart="580dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginStart="448dp"
         android:text="testFFMpeg"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/testFFMpegJNI"
+        android:layout_width="350dp"
+        android:layout_height="103dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginStart="744dp"
+        android:text="testFFMpegJNI"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

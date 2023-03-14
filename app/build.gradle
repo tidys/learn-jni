@@ -10,6 +10,9 @@ android {
     namespace 'com.example.learnndk'
     compileSdk 33
 
+    sourceSets {
+
+    }
     defaultConfig {
         applicationId "com.example.learnndk"
         minSdk 24

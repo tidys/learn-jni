@@ -50,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         TextView tv = (TextView) findViewById(R.id.text);
         tv.setText(stringFromJNI());
+        AssetManager assetManager = this.getAssets();
+
+        findViewById(R.id.testFFMpegJNI).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setText(testFFMpegJNI(assetManager));
+            }
+        });
+
+
         String mp4File = this.getAssetsFilePath("gaga.mp4");
         findViewById(R.id.testFFMpeg).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
     public native String stringFromJNI();
 
     public native String testFFMpeg(String mp4File);
+
+    public native String testFFMpegJNI(AssetManager assetManager);
 
     public native String testOpenAL();
 }

@@ -2,7 +2,6 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_MODULE := native-lib
 LOCAL_SRC_FILES := ../src/main/cpp/native-lib.cpp
-
 LOCAL_LDFLAGS += -Wl,-Bsymbolic
 #--unresolved-symbols=ignore-all
 LOCAL_CFLAGS := -fPIC
@@ -24,6 +23,7 @@ LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_libswresample
 LOCAL_SHARED_LIBRARIES += cocos_ffmpeg_libswscale
 LOCAL_SHARED_LIBRARIES += cocos_openal
 # include $(BUILD_STATIC_LIBRARY)
+LOCAL_LDLIBS := -landroid -llog
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-add-path,$(LOCAL_PATH))
