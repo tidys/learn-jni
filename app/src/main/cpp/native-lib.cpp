@@ -25,6 +25,33 @@ string checkError(const char *file, int line) {
 }
 
 #define CHECHERROR() checkError(__FILE__, __LINE__);
+
+extern "C" JNIEXPORT jstring
+JNICALL Java_com_example_learnndk_MainActivity_testVMPath(JNIEnv* env,jobject activity,jstring vmpath){
+    std::string tips = "";
+    av_register_all();
+    avcodec_register_all();
+    AVFormatContext *avFormatContext = avformat_alloc_context();
+    if (avFormatContext) {
+        tips += "call ffmpeg avformat_alloc_context\n";
+    }
+    // file:///android_asset 没有效果
+//    char *file = "file:///android_asset/gaga.mp4";
+    const char *file = env->GetStringUTFChars(vmpath, 0);
+    tips += string(file) + "\n";
+    int ret = avformat_open_input(&avFormatContext, file, nullptr, nullptr);
+    if (ret != 0) {
+        char buf[255];
+        av_strerror(ret, buf, 255);
+        char tmp[255];
+        sprintf(tmp, "avformat_open_input failed %d: %s\n", ret, buf);
+        tips += string(tmp);
+    } else {
+        tips += "avformat_open_input success!\n";
+    }
+    return env->NewStringUTF(tips.c_str());
+}
+
 extern "C" JNIEXPORT jstring
 JNICALL Java_com_example_learnndk_MainActivity_testFFMpegJNI(JNIEnv *env, jobject, jobject obj) {
     string tips = "";
