@@ -24,6 +24,7 @@
         android:layout_marginBottom="44dp"
         android:layout_marginStart="56dp"
         android:text="assets/1.txt"
+        android:textAllCaps="false"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -34,6 +35,7 @@
         android:layout_height="103dp"
         android:layout_marginBottom="36dp"
         android:layout_marginStart="448dp"
+        android:textAllCaps="false"
         android:text="testFFMpeg"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -44,10 +46,23 @@
         android:layout_width="350dp"
         android:layout_height="103dp"
         android:layout_marginBottom="36dp"
+        android:textAllCaps="false"
         android:layout_marginStart="744dp"
         android:text="testFFMpegJNI"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/testFileAPI"
+        android:textAllCaps="false"
+        android:layout_width="350dp"
+        android:layout_height="103dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:text="testFileAPI"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

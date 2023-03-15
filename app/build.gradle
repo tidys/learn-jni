@@ -3,16 +3,11 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        release {
-        }
-    }
     namespace 'com.example.learnndk'
     compileSdk 33
+//    ndkVersion "22.1.7171670"
+    ndkVersion '25.1.8937393'
 
-    sourceSets {
-
-    }
     defaultConfig {
         applicationId "com.example.learnndk"
         minSdk 24
@@ -25,6 +20,9 @@ android {
             abiFilters 'armeabi-v7a'
 
         }
+        sourceSets.main {
+            jniLibs.srcDirs = ['src/main/cpp']
+        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
@@ -34,12 +32,17 @@ android {
         }
     }
     buildTypes {
-        customDebugType {
+        debug {
             debuggable true
             jniDebuggable true
+            minifyEnabled false
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
         }
     }
-    ndkVersion "22.1.7171670"
+
+
     externalNativeBuild {
 //        // 使用cmake编译c++
 //        cmake {

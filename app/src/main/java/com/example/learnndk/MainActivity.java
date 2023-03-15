@@ -51,7 +51,12 @@ public class MainActivity extends AppCompatActivity {
         TextView tv = (TextView) findViewById(R.id.text);
         tv.setText(stringFromJNI());
         AssetManager assetManager = this.getAssets();
-
+        findViewById(R.id.testFileAPI).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setText(testFileApi());
+            }
+        });
         findViewById(R.id.testFFMpegJNI).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,4 +104,6 @@ public class MainActivity extends AppCompatActivity {
     public native String testFFMpegJNI(AssetManager assetManager);
 
     public native String testOpenAL();
+
+    public native String testFileApi();
 }

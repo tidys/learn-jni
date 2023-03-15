@@ -26,7 +26,7 @@ string checkError(const char *file, int line) {
 
 #define CHECHERROR() checkError(__FILE__, __LINE__);
 extern "C" JNIEXPORT jstring
-JNICALL Java_com_example_learnndk_MainActivity_testFFMpegJNI(JNIEnv *env,jobject , jobject obj) {
+JNICALL Java_com_example_learnndk_MainActivity_testFFMpegJNI(JNIEnv *env, jobject, jobject obj) {
     string tips = "";
     AAssetManager *mgr = AAssetManager_fromJava(env, obj);
     if (mgr != nullptr) {
@@ -48,7 +48,8 @@ JNICALL Java_com_example_learnndk_MainActivity_testFFMpeg(JNIEnv *env, jobject, 
     if (avFormatContext) {
         tips += "call ffmpeg avformat_alloc_context\n";
     }
-//    char *file = "gaga.mp4";
+    // file:///android_asset 没有效果
+//    char *file = "file:///android_asset/gaga.mp4";
     const char *file = env->GetStringUTFChars(mp4File, 0);
     tips += string(file) + "\n";
     int ret = avformat_open_input(&avFormatContext, file, nullptr, nullptr);
@@ -63,7 +64,19 @@ JNICALL Java_com_example_learnndk_MainActivity_testFFMpeg(JNIEnv *env, jobject, 
     }
     return env->NewStringUTF(tips.c_str());
 }
-
+extern "C" JNIEXPORT jstring
+JNICALL Java_com_example_learnndk_MainActivity_testFileApi(JNIEnv *env, jobject) {
+    string file = "assets/1.txt";
+    string tips = file+"\n";
+    FILE *fp = fopen(file.c_str(), "rb");
+    if (fp) {
+        auto descriptor = fileno(fp);
+        tips += "has size";
+    } else {
+        tips += "open failed";
+    }
+    return env->NewStringUTF(tips.c_str());
+}
 extern "C" JNIEXPORT jstring
 
 JNICALL Java_com_example_learnndk_MainActivity_testOpenAL(JNIEnv *env, jobject) {
@@ -96,7 +109,7 @@ JNICALL Java_com_example_learnndk_MainActivity_testOpenAL(JNIEnv *env, jobject) 
     tips += CHECHERROR();
 
     alSourcePlay(_source);
-    return  env->NewStringUTF("");
+    return env->NewStringUTF("");
 }
 
 extern "C" JNIEXPORT jstring
