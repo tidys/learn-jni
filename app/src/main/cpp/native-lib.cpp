@@ -14,11 +14,30 @@ extern "C" {
 }
 using namespace std;
 
+char *getErrorString(ALenum err) {
+    switch (err) {
+        case AL_NO_ERROR:
+            return "AL_NO_ERROR";
+        case AL_INVALID_NAME:
+            return "AL_INVALID_NAME";
+        case AL_INVALID_ENUM:
+            return "AL_INVALID_ENUM";
+        case AL_INVALID_VALUE:
+            return "AL_INVALID_VALUE";
+        case AL_INVALID_OPERATION:
+            return "AL_INVALID_OPERATION";
+        case AL_OUT_OF_MEMORY:
+            return "AL_OUT_OF_MEMORY";
+        default:
+            return "un know error";
+    }
+}
+
 string checkError(const char *file, int line) {
     ALenum err = alGetError();
     if (err != AL_NO_ERROR) {
         char tmp[255];
-        sprintf(tmp, "error on line:%d", line);
+        sprintf(tmp, "error on line %d: %s", line, getErrorString(err));
         return string(tmp) + "\n";
     }
     return string("");
@@ -27,7 +46,8 @@ string checkError(const char *file, int line) {
 #define CHECHERROR() checkError(__FILE__, __LINE__);
 
 extern "C" JNIEXPORT jstring
-JNICALL Java_com_example_learnndk_MainActivity_testVMPath(JNIEnv* env,jobject activity,jstring vmpath){
+JNICALL
+Java_com_example_learnndk_MainActivity_testVMPath(JNIEnv *env, jobject activity, jstring vmpath) {
     std::string tips = "";
     av_register_all();
     avcodec_register_all();
@@ -94,7 +114,7 @@ JNICALL Java_com_example_learnndk_MainActivity_testFFMpeg(JNIEnv *env, jobject, 
 extern "C" JNIEXPORT jstring
 JNICALL Java_com_example_learnndk_MainActivity_testFileApi(JNIEnv *env, jobject) {
     string file = "assets/1.txt";
-    string tips = file+"\n";
+    string tips = file + "\n";
     FILE *fp = fopen(file.c_str(), "rb");
     if (fp) {
         auto descriptor = fileno(fp);
@@ -104,39 +124,62 @@ JNICALL Java_com_example_learnndk_MainActivity_testFileApi(JNIEnv *env, jobject)
     }
     return env->NewStringUTF(tips.c_str());
 }
+
+
+bool isInitOpenAL = false;
+ALuint source;
+ALuint buffer;
+
 extern "C" JNIEXPORT jstring
 
 JNICALL Java_com_example_learnndk_MainActivity_testOpenAL(JNIEnv *env, jobject) {
     string tips = "";
-    ALCdevice *pDevice = alcOpenDevice(nullptr);
-    ALCcontext *pContext = alcCreateContext(pDevice, nullptr);
-    alcMakeContextCurrent(pContext);
-    ALuint _source;
-    alGenSources(1, &_source);
-    alSourcei(_source, AL_LOOPING, AL_TRUE);
-    if (pDevice) {
-        tips += "call openal alcOpenDevice\n";
+
+    if (!isInitOpenAL) {
+        isInitOpenAL = true;
+        ALCdevice *pDevice = alcOpenDevice(nullptr);
+        if (pDevice) {
+            tips += "call openal alcOpenDevice success\n";
+        } else {
+            tips += "call openal alOpenDevices failed\n";
+        }
+        ALCcontext *pContext = alcCreateContext(pDevice, nullptr);
+        alcMakeContextCurrent(pContext);
+        alGenSources(1, &source);
+        alSourcei(source, AL_LOOPING, AL_FALSE);
+        tips += CHECHERROR();
+
+        char *data = new char[1000];
+        float max = CHAR_MAX / 4;
+        float rad = 0;
+
+        for (int i = 0; i < 1000; i++) {
+            data[i] = (max * cosf(rad));
+            rad += 1.f;
+        }
+
+        alGenBuffers(1, &buffer);
+        tips += CHECHERROR();
+        alBufferData(buffer, AL_FORMAT_STEREO16, data, 1000, 2000);
+        tips += CHECHERROR();
+        delete[] data;
     }
-    tips += CHECHERROR();
-    char *data = new char[1000];
-    float max = CHAR_MAX / 4;
-    float rad = 0;
+    // clean processed buffer
+    ALint process = 0;
+    alGetSourcei(source, AL_BUFFERS_PROCESSED, &process);
 
-    for (int i = 0; i < 1000; i++) {
-        data[i] = (max * cosf(rad));
-        rad += 1.f;
+    while ((process--) > 0) {
+        ALuint bufferID;
+        alSourceUnqueueBuffers(source, 1, &bufferID);
+        // don't delete buffer, we can use again
+//        alDeleteBuffers(1, &bufferID);
     }
-
-    ALuint buffer;
-    alGenBuffers(1, &buffer);
+    // push buffer
+    alSourceQueueBuffers(source, 1, &buffer);
     tips += CHECHERROR();
-
-    alBufferData(buffer, AL_FORMAT_STEREO16, data, 1000, 500);
-//    alSourceQueueBuffers(_source, 1, &buffer);
-    tips += CHECHERROR();
-
-    alSourcePlay(_source);
-    return env->NewStringUTF("");
+    alSourcePlay(source);
+    tips += "play ...\n";
+    return env->NewStringUTF(tips.c_str());
 }
 
 extern "C" JNIEXPORT jstring

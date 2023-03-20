@@ -2,12 +2,10 @@ package com.example.learnndk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.BufferedInputStream;
@@ -62,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        findViewById(R.id.testOpenAL).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setText(testOpenAL());
+            }
+        });
         findViewById(R.id.testFileAPI).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 tv.setText(testFFMpeg(mp4File));
             }
         });
-        Button btn = (Button) findViewById(R.id.test);
-        btn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.readAssets_txt).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("f", "click");

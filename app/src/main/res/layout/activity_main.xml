@@ -11,70 +11,84 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-    <Button
-        android:id="@+id/test"
-        android:layout_width="374dp"
-        android:layout_height="97dp"
-        android:layout_marginBottom="44dp"
-        android:layout_marginStart="56dp"
-        android:text="assets/1.txt"
-        android:textAllCaps="false"
-        android:textSize="34sp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:ignore="MissingConstraints">
 
-    <Button
-        android:id="@+id/testFFMpeg"
-        android:layout_width="280dp"
-        android:layout_height="103dp"
-        android:layout_marginBottom="36dp"
-        android:layout_marginStart="448dp"
-        android:textAllCaps="false"
-        android:text="testFFMpeg"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/readAssets_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:singleLine="true"
+            android:text="ReadAssets/1.txt"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/testFFMpegJNI"
-        android:layout_width="350dp"
-        android:layout_height="103dp"
-        android:layout_marginBottom="36dp"
-        android:textAllCaps="false"
-        android:layout_marginStart="744dp"
-        android:text="testFFMpegJNI"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/testFFMpeg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="testFFMpeg(mp4File)"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/testFileAPI"
-        android:textAllCaps="false"
-        android:layout_width="350dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="60dp"
-        android:text="testFileAPI"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/testFFMpegJNI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="testFFMpeg(astMgr)"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/testVMPath"
-        android:layout_width="350dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="496dp"
-        android:layout_marginTop="68dp"
-        android:text="使用虚拟路径"
-        android:textAllCaps="false"
-        android:textSize="34sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/testVMPath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="testFFMpegVmPath"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/testFileAPI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="testFileAPI"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/testOpenAL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="testOpenAL"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
