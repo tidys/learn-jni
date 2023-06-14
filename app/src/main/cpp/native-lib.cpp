@@ -4,6 +4,7 @@
 #include "assert.h"
 #include "android/asset_manager.h"
 #include "android/asset_manager_jni.h"
+#include "vector"
 
 extern "C" {
 #include <libavutil/version.h>
@@ -191,4 +192,30 @@ JNICALL Java_com_example_learnndk_MainActivity_stringFromJNI(JNIEnv *env, jobjec
         tips += "LIBAVUTIL_VERSION_MAJOR: 56";
     }
     return env->NewStringUTF(tips.c_str());
+}
+
+int i = 0;
+std::vector<void *> arr;
+
+
+extern "C" JNIEXPORT jstring
+JNICALL Java_com_example_learnndk_MainActivity_leakFree(JNIEnv *env, jobject /* this */) {
+    i=0;
+    char tmp[255];
+    for(auto m:arr){
+        free(m);
+    }
+    arr.clear();
+    sprintf(tmp, "%s %d\n", "leak test ", arr.size());
+    return env->NewStringUTF(tmp);
+}
+
+extern "C" JNIEXPORT jstring
+JNICALL Java_com_example_learnndk_MainActivity_leakTest(JNIEnv *env, jobject /* this */) {
+    i++;
+    char tmp[255];
+    void *p = malloc(1024 * 1024 * 10);
+    arr.push_back(p);
+    sprintf(tmp, "%s %d\n", "leak test ", arr.size());
+    return env->NewStringUTF(tmp);
 }

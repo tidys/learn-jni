@@ -60,6 +60,18 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        findViewById(R.id.leakTest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setText(leakTest());
+            }
+        });
+        findViewById(R.id.leakFree).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv.setText(leakFree());
+            }
+        });
         findViewById(R.id.testOpenAL).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public native String stringFromJNI();
-
+    public native String leakTest();
+    public native String leakFree();
     public native String testFFMpeg(String mp4File);
 
     public native String testVMPath(String vmpath);
