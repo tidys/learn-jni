@@ -48,7 +48,7 @@
 /////////////////////////////////////////////////////////////
 
 #ifndef ALLOCATION_STACK_DEPTH
-#	define ALLOCATION_STACK_DEPTH 20
+#	define ALLOCATION_STACK_DEPTH 5
 #endif
 
 #ifndef PRINTED_DATA_BUFFER_SIZE
