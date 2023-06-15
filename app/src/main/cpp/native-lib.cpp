@@ -5,6 +5,8 @@
 #include "android/asset_manager.h"
 #include "android/asset_manager_jni.h"
 #include "vector"
+#include "MemoryTrace.hpp"
+#include "leak-tracer/include/MemoryTrace.hpp"
 
 extern "C" {
 #include <libavutil/version.h>
@@ -200,9 +202,9 @@ std::vector<void *> arr;
 
 extern "C" JNIEXPORT jstring
 JNICALL Java_com_example_learnndk_MainActivity_leakFree(JNIEnv *env, jobject /* this */) {
-    i=0;
+    i = 0;
     char tmp[255];
-    for(auto m:arr){
+    for (auto m: arr) {
         free(m);
     }
     arr.clear();
@@ -218,4 +220,17 @@ JNICALL Java_com_example_learnndk_MainActivity_leakTest(JNIEnv *env, jobject /* 
     arr.push_back(p);
     sprintf(tmp, "%s %d\n", "leak test ", arr.size());
     return env->NewStringUTF(tmp);
+}
+
+extern "C" JNIEXPORT void
+JNICALL Java_com_example_learnndk_MainActivity_leakMonitor(JNIEnv *env, jobject /* this */) {
+    leaktracer::MemoryTrace::GetInstance().startMonitoringAllThreads();
+}
+
+extern "C" JNIEXPORT void
+JNICALL Java_com_example_learnndk_MainActivity_leakReport(JNIEnv *env, jobject /* this */,
+                                                          jstring filePath) {
+    const char *path = env->GetStringUTFChars(filePath, JNI_FALSE);;
+    leaktracer::MemoryTrace::GetInstance().writeLeaksToFile(path);
+    env->ReleaseStringUTFChars(filePath, path);
 }

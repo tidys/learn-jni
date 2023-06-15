@@ -2,6 +2,7 @@ package com.example.learnndk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tv.setText(leakTest());
+            }
+        });
+        findViewById(R.id.leakMonitor).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        findViewById(R.id.leakReport).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
         findViewById(R.id.leakFree).setOnClickListener(new View.OnClickListener() {
@@ -126,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
     public native String stringFromJNI();
     public native String leakTest();
     public native String leakFree();
+    public native void leakMonitor();
+    public native void leakReport(String path);
     public native String testFFMpeg(String mp4File);
 
     public native String testVMPath(String vmpath);

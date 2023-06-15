@@ -25,6 +25,31 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/leakReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:singleLine="true"
+            android:text="leakReport"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/leakMonitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:singleLine="true"
+            android:text="leakMonitor"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <Button
             android:id="@+id/leakFree"
             android:layout_width="wrap_content"
