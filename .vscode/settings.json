@@ -1,4 +1,17 @@
 {
-    "files.autoSave": "onFocusChange",
-    "editor.formatOnSave": true
+  "files.autoSave": "onFocusChange",
+  "editor.formatOnSave": false,
+  "C_Cpp.files.exclude": {
+    "**/.vscode": true,
+    "**/.vs": true
+  },
+  "files.associations": {
+    "*.frag": "glsl",
+    "HOSTS": "shellscript",
+    "*.ejs": "ejs",
+    "string": "cpp",
+    "xstring": "cpp",
+    "iosfwd": "cpp",
+    "cwchar": "cpp"
+  }
 }
