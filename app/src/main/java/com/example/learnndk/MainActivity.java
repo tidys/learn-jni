@@ -1,17 +1,25 @@
 package com.example.learnndk;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,11 +51,70 @@ public class MainActivity extends AppCompatActivity {
         return "";
     }
 
+    public void requestLogPermission() {
+        // 动态申请权限
+        String permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+        int ret = ContextCompat.checkSelfPermission(this, permission);
+        if (ret != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, 0);
+        }
+
+    }
+
+    private String logFilePath = null;
+
+    public String ensureLogFile() {
+        if (this.logFilePath == null) {
+            File[] dirs = getExternalFilesDirs(Environment.DIRECTORY_DOCUMENTS);
+            String dir = null;
+            if (dirs.length > 0) {
+                dir = dirs[0].getAbsolutePath();
+            } else {
+                return null;
+            }
+
+            File file = new File(dir, "leak_report.txt");
+            String filePath = file.getAbsolutePath();
+            Log.d("log file path: ", filePath);
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                    Log.d("", "创建日志文件成功");
+                } catch (IOException e) {
+                    Log.d("", "创建日志文件失败");
+                    throw new RuntimeException(e);
+                }
+            }
+            this.logFilePath = filePath;
+        }
+        return this.logFilePath;
+    }
+
+    public void showLogContent() {
+        String filePath = this.ensureLogFile();
+        try {
+            File file = new File(filePath);
+            InputStream inputStream = new FileInputStream(file);
+            byte[] bytes = new byte[(int) file.length()];
+            inputStream.read(bytes);
+            String content = new String(bytes);
+            inputStream.close();
+            Log.d("", "File content: \n" + content);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.requestLogPermission();
+
         TextView tv = (TextView) findViewById(R.id.text);
         tv.setText(stringFromJNI());
         AssetManager assetManager = this.getAssets();
@@ -68,16 +135,27 @@ public class MainActivity extends AppCompatActivity {
                 tv.setText(leakTest());
             }
         });
-        findViewById(R.id.leakMonitor).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.leakStartMonitor).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                leakStartMonitor();
+            }
+        });
+        findViewById(R.id.leakStopMonitor).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                leakStopMonitor();
             }
         });
         findViewById(R.id.leakReport).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String filePath = MainActivity.this.ensureLogFile();
+                leakStopMonitor();
+                leakReport(filePath);
+                Toast.makeText(MainActivity.this, "文件写入成功", Toast.LENGTH_SHORT).show();
+                MainActivity.this.showLogContent();
             }
         });
         findViewById(R.id.leakFree).setOnClickListener(new View.OnClickListener() {
@@ -138,10 +216,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public native String stringFromJNI();
+
     public native String leakTest();
+
     public native String leakFree();
-    public native void leakMonitor();
+
+    public native void leakStartMonitor();
+
+    public native void leakStopMonitor();
+
     public native void leakReport(String path);
+
     public native String testFFMpeg(String mp4File);
 
     public native String testVMPath(String vmpath);

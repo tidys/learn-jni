@@ -5,7 +5,6 @@
 #include "android/asset_manager.h"
 #include "android/asset_manager_jni.h"
 #include "vector"
-#include "MemoryTrace.hpp"
 #include "leak-tracer/include/MemoryTrace.hpp"
 
 extern "C" {
@@ -223,10 +222,13 @@ JNICALL Java_com_example_learnndk_MainActivity_leakTest(JNIEnv *env, jobject /* 
 }
 
 extern "C" JNIEXPORT void
-JNICALL Java_com_example_learnndk_MainActivity_leakMonitor(JNIEnv *env, jobject /* this */) {
+JNICALL Java_com_example_learnndk_MainActivity_leakStartMonitor(JNIEnv *env, jobject /* this */) {
     leaktracer::MemoryTrace::GetInstance().startMonitoringAllThreads();
 }
-
+extern "C" JNIEXPORT void
+JNICALL Java_com_example_learnndk_MainActivity_leakStopMonitor(JNIEnv *env, jobject /* this */) {
+    leaktracer::MemoryTrace::GetInstance().stopAllMonitoring();
+}
 extern "C" JNIEXPORT void
 JNICALL Java_com_example_learnndk_MainActivity_leakReport(JNIEnv *env, jobject /* this */,
                                                           jstring filePath) {

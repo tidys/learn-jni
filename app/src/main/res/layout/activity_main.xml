@@ -37,14 +37,25 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
         <Button
-            android:id="@+id/leakMonitor"
+            android:id="@+id/leakStopMonitor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="none"
             android:singleLine="true"
-            android:text="leakMonitor"
+            android:text="leakStopMonitor"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/leakStartMonitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:singleLine="true"
+            android:text="leakStartMonitor"
             android:textAllCaps="false"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"

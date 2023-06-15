@@ -14,3 +14,5 @@
 .cxx
 local.properties
 .idea/
+app/jni/leak-tracer/test/build/
+leak-result/
