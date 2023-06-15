@@ -6,7 +6,7 @@
 #include "android/asset_manager_jni.h"
 #include "vector"
 #include "leak-tracer/include/MemoryTrace.hpp"
-
+#include <android/log.h>
 extern "C" {
 #include <libavutil/version.h>
 #include <libavformat/avformat.h>
@@ -236,3 +236,8 @@ JNICALL Java_com_example_learnndk_MainActivity_leakReport(JNIEnv *env, jobject /
     leaktracer::MemoryTrace::GetInstance().writeLeaksToFile(path);
     env->ReleaseStringUTFChars(filePath, path);
 }
+extern "C" JNIEXPORT void
+JNICALL Java_com_example_learnndk_MainActivity_testPrint(JNIEnv *env, jobject /* this */) {
+    __android_log_print(ANDROID_LOG_INFO, "TAG", "Hello, world!");
+}
+

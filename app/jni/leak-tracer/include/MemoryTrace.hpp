@@ -103,6 +103,7 @@ public:
 	/** writes report with all memory leaks */
 	void writeLeaksToFile(const char* reportFileName);
 
+	void androidLog(const char* log);
 	/** returns TRUE if all monitoring is currently disabled,
 	 *  required to make sure we don't use this class before it
 	 *  was properly initialized */

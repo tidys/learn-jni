@@ -225,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
 
     public native void leakStopMonitor();
 
+    public native void testPrint();
+
     public native void leakReport(String path);
 
     public native String testFFMpeg(String mp4File);
