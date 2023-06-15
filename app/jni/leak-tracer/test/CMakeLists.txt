@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.0.0)
+set(app "leak-tracer-example")
+include(../CMakeLists.txt)
+project(${app})
+add_definitions(-DUSE_BACKTRACE)
+add_executable(${app} ./test.cc)
+target_link_libraries(${app} PUBLIC ${leaktracer})

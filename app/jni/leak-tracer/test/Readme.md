@@ -1,0 +1,1 @@
+这个CMake存在的意义就是方便使用vs编写leak-tracker的代码，实际上leak-tracker并不能在Windows上编译。
