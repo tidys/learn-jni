@@ -401,7 +401,7 @@ void MemoryTrace::writeLeaks(std::ostream &out)
 }
 
 void MemoryTrace::androidLog(const char* log){
-	__android_log_print(ANDROID_LOG_INFO, "TAG", "%s", log);
+//	__android_log_print(ANDROID_LOG_INFO, "TAG", "%s", log);
 }
 
 // writes all memory leaks to given stream

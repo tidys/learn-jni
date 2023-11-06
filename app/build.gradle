@@ -51,7 +51,7 @@ android {
 //        }
         //  使用ndkBuild编译c++
         ndkBuild {
-            path "jni/Android.mk"
+            path file("jni/Android.mk")
         }
     }
 

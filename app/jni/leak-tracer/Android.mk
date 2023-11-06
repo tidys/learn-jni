@@ -8,5 +8,7 @@ src/MemoryTrace.cpp \
 src/AllocationHandlers.cpp 
 #LOCAL_CPPFLAGS += -DUSE_BACKTRACE # android not support bakctrace function
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
+LOCAL_CFLAGS += -g
+LOCAL_CPPFLAGS += -g
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include
-include $(BUILD_STATIC_LIBRARY)
+include $(BUILD_SHARED_LIBRARY)
